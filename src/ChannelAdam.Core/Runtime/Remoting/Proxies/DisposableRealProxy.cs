@@ -229,8 +229,8 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 
                 returnMessage = new ReturnMessage(
                                 result,                                 // Operation result
-                                null,                                   // Out arguments
-                                0,                                      // Out arguments count
+                                methodCallMessage.Args,                 // Out arguments
+                                methodCallMessage.ArgCount,             // Out arguments count
                                 methodCallMessage.LogicalCallContext,   // Call context
                                 methodCallMessage);                     // Original message
             }

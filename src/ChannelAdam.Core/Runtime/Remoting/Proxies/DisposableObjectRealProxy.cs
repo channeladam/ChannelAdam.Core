@@ -61,7 +61,7 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 
             try
             {
-                result = methodInfo.Invoke(onThis, methodCallMessage.InArgs);
+                result = methodInfo.Invoke(onThis, methodCallMessage.Args);
             }
             catch (TargetInvocationException targetEx)
             {
