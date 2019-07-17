@@ -217,19 +217,20 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
                 }
 
                 object result = null;
+                var methodCallMessageWrapper = new MethodCallMessageWithMutableArgs(methodCallMessage);
 
                 if (methodCallMessage.MethodName == "Dispose")
                 {
-                    result = this.InvokeMethod(methodCallMessage, this);
+                    result = this.InvokeMethod(methodCallMessageWrapper, this);
                 }
                 else
                 {
-                    result = this.InvokeMethod(methodCallMessage, this.ProxiedObject);
+                    result = this.InvokeMethod(methodCallMessageWrapper, this.ProxiedObject);
                 }
 
                 returnMessage = new ReturnMessage(
                                 result,                                 // Operation result
-                                methodCallMessage.Args,                 // Out arguments
+                                methodCallMessageWrapper.MutableArgs,   // Out arguments
                                 methodCallMessage.ArgCount,             // Out arguments count
                                 methodCallMessage.LogicalCallContext,   // Call context
                                 methodCallMessage);                     // Original message
