@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>ChannelAdam.Core</id>
-    <version>1.6.2</version>
+    <version>1.6.3</version>
     <title>ChannelAdam Core Library</title>
     <authors>Adam Craven</authors>
     <owners>Adam Craven</owners>
@@ -12,6 +12,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>DEPRECATED - see https://github.com/channeladam/ChannelAdam.Core/blob/master/README.md. A core library that provides helpful functionality including base classes for disposables and finalizers, weak events, proxies, support for retry policies, XML conversion/serialisation and embedded resources.</description>
     <releaseNotes>
+THIS LIBRARY IS NOW DEPRECATED.
+1.6.3 - Enhanced ChannelAdam.Runtime.Remoting.Proxies to support out and ref method parameters.
 1.6.1 - THIS LIBRARY IS NOW DEPRECATED. 
 It has been replaced with the following .NET Standard libraries: 
         - ChannelAdam.Commands

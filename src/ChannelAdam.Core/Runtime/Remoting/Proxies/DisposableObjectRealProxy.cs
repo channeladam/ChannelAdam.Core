@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisposableObjectRealProxy.cs">
-//     Copyright (c) 2014 Adam Craven. All rights reserved.
+//     Copyright (c) 2014-2019 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,18 +50,26 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
         /// <exception cref="System.InvalidCastException">The value of methodCallMessage.MethodBase cannot be cast to a MethodInfo.</exception>
         protected override object InvokeMethod(IMethodCallMessage methodCallMessage, object onThis)
         {
-            object result = null;
-
             if (methodCallMessage == null)
             {
                 throw new ArgumentNullException(nameof(methodCallMessage));
             }
 
+            object result;
             var methodInfo = (MethodInfo)methodCallMessage.MethodBase;
 
             try
             {
-                result = methodInfo.Invoke(onThis, methodCallMessage.InArgs);
+                if (methodCallMessage is IHasMutableArgs hasMutableArgs)
+                {
+                    // A little kludge to support ref and out parameters without having to change the signature of this InvokeMethod() to support passing the args in and out.
+                    result = methodInfo.Invoke(onThis, hasMutableArgs.MutableArgs);
+                }
+                else
+                {
+                    // Maintaining backwards compatability
+                    result = methodInfo.Invoke(onThis, methodCallMessage.InArgs);
+                }
             }
             catch (TargetInvocationException targetEx)
             {
@@ -73,10 +81,6 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 
                 throw;
             }
-            ////catch (Exception)
-            ////{
-            ////    throw;
-            ////}
 
             return result;
         }

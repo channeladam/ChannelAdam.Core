@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisposableRealProxy.cs">
-//     Copyright (c) 2014 Adam Craven. All rights reserved.
+//     Copyright (c) 2014-2019 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +18,10 @@
 namespace ChannelAdam.Runtime.Remoting.Proxies
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System.Runtime.Remoting;
     using System.Runtime.Remoting.Messaging;
     using System.Runtime.Remoting.Proxies;
     using System.Security;
-    using System.Security.Permissions;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Abstract class that implements the Dispose Pattern on top of a <see cref="RealProxy"/>.
@@ -217,22 +211,23 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
                 }
 
                 object result = null;
+                var methodCallMessageWithMutableArgs = new MethodCallMessageWithMutableArgs(methodCallMessage);
 
                 if (methodCallMessage.MethodName == "Dispose")
                 {
-                    result = this.InvokeMethod(methodCallMessage, this);
+                    result = this.InvokeMethod(methodCallMessageWithMutableArgs, this);
                 }
                 else
                 {
-                    result = this.InvokeMethod(methodCallMessage, this.ProxiedObject);
+                    result = this.InvokeMethod(methodCallMessageWithMutableArgs, this.ProxiedObject);
                 }
 
                 returnMessage = new ReturnMessage(
-                                result,                                 // Operation result
-                                null,                                   // Out arguments
-                                0,                                      // Out arguments count
-                                methodCallMessage.LogicalCallContext,   // Call context
-                                methodCallMessage);                     // Original message
+                                result,                                         // Operation result
+                                methodCallMessageWithMutableArgs.MutableArgs,   // Out arguments
+                                methodCallMessage.ArgCount,                     // Out arguments count
+                                methodCallMessage.LogicalCallContext,           // Call context
+                                methodCallMessage);                             // Original message
             }
             catch (Exception e)
             {
