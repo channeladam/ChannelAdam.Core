@@ -8,6 +8,10 @@
       <Value>Proxied</Value>
       <Value>rethrown</Value>
       <Value>unsubscription</Value>
+      <Value>deserialise</Value>
+      <Value>deserialisation</Value>
+      <Value>deserialises</Value>
+      <Value>deserialised</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Parsers>

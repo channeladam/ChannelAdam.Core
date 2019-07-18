@@ -15,17 +15,17 @@
 // limitations under the License.
 //-----------------------------------------------------------------------
 
-using System.Collections;
-using System.Reflection;
-using System.Runtime.Remoting.Messaging;
-
 namespace ChannelAdam.Runtime.Remoting.Proxies
 {
+    using System.Collections;
+    using System.Reflection;
+    using System.Runtime.Remoting.Messaging;
+
     public class MethodCallMessageWithMutableArgs : IMethodCallMessage, IHasMutableArgs
     {
         #region Private Fields
 
-        private readonly IMethodCallMessage _methodCallMessage;
+        private readonly IMethodCallMessage methodCallMessage;
 
         #endregion Private Fields
 
@@ -33,29 +33,39 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 
         public MethodCallMessageWithMutableArgs(IMethodCallMessage methodCallMessage)
         {
-            _methodCallMessage = methodCallMessage;
-            MutableArgs = methodCallMessage.Args;
+            this.methodCallMessage = methodCallMessage ?? throw new System.ArgumentNullException(nameof(methodCallMessage));
+            this.MutableArgs = methodCallMessage.Args;
         }
 
         #endregion Public Constructors
 
         #region Public Properties
 
-        public int ArgCount => _methodCallMessage.ArgCount;
-        public object[] Args => _methodCallMessage.Args;
-        public bool HasVarArgs => _methodCallMessage.HasVarArgs;
-        public int InArgCount => _methodCallMessage.InArgCount;
+        public int ArgCount => this.methodCallMessage.ArgCount;
 
-        public object[] InArgs => _methodCallMessage.InArgs;
+        public object[] Args => this.methodCallMessage.Args;
 
-        public LogicalCallContext LogicalCallContext => _methodCallMessage.LogicalCallContext;
-        public MethodBase MethodBase => _methodCallMessage.MethodBase;
-        public string MethodName => _methodCallMessage.MethodName;
-        public object MethodSignature => _methodCallMessage.MethodSignature;
-        public object[] MutableArgs { get; }
-        public IDictionary Properties => _methodCallMessage.Properties;
-        public string TypeName => _methodCallMessage.TypeName;
-        public string Uri => _methodCallMessage.Uri;
+        public bool HasVarArgs => this.methodCallMessage.HasVarArgs;
+
+        public int InArgCount => this.methodCallMessage.InArgCount;
+
+        public object[] InArgs => this.methodCallMessage.InArgs;
+
+        public LogicalCallContext LogicalCallContext => this.methodCallMessage.LogicalCallContext;
+
+        public MethodBase MethodBase => this.methodCallMessage.MethodBase;
+
+        public string MethodName => this.methodCallMessage.MethodName;
+
+        public object MethodSignature => this.methodCallMessage.MethodSignature;
+
+        public object[] MutableArgs { get; set; }
+
+        public IDictionary Properties => this.methodCallMessage.Properties;
+
+        public string TypeName => this.methodCallMessage.TypeName;
+
+        public string Uri => this.methodCallMessage.Uri;
 
         #endregion Public Properties
 
@@ -63,22 +73,22 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 
         public object GetArg(int argNum)
         {
-            return _methodCallMessage.GetArg(argNum);
+            return this.methodCallMessage.GetArg(argNum);
         }
 
         public string GetArgName(int index)
         {
-            return _methodCallMessage.GetArgName(index);
+            return this.methodCallMessage.GetArgName(index);
         }
 
         public object GetInArg(int argNum)
         {
-            return _methodCallMessage.GetInArg(argNum);
+            return this.methodCallMessage.GetInArg(argNum);
         }
 
         public string GetInArgName(int index)
         {
-            return _methodCallMessage.GetInArgName(index);
+            return this.methodCallMessage.GetInArgName(index);
         }
 
         #endregion Public Methods

@@ -19,6 +19,7 @@ namespace ChannelAdam.Runtime.Remoting.Proxies
 {
     public interface IHasMutableArgs
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "We want the contents of the array to be mutable for the backwards compatible implementation")]
         object[] MutableArgs { get; }
     }
 }
